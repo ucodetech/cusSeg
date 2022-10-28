@@ -1,0 +1,128 @@
+{% extends "adminpages/adminbase.html" %}
+
+{% block title %}Admin Segment Customer{% endblock %}
+
+
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Segmentation Result</h3>
+            <div class="row">
+                <div class="col-md-6 text-center justify-content-center">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                Segment Customers
+                            </h3>
+                        </div>
+                        <div class="card-body">
+                           <table class="table table-bordered table-condensed table-hover">
+                            <thead>
+                                <th>#</th>
+                                <th>Customer</th>
+                                <th>No of Orders</th>
+                                <th>Action</th>
+                                
+                            </thead>
+                            <tbody>
+                                {% for customer in segcustomers %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ customer.user }}</td>
+                                   
+                                    <td>
+                                        {% for order in orders %}
+                                        {% if order.ordered_by == customer.user %}
+                                            {{ order }}, 
+                                            {%endif%}
+                                        {% endfor %}
+                                    </td>
+                                  
+                                    <td>
+                                        <a href="{% url 'ecomapp:AdminsegmentCustomer' customer.id %}?action=segHign" class="btn btn-sm btn-primary"> High </a>
+                                        <a href="{% url 'ecomapp:AdminsegmentCustomer' customer.id %}?action=segLow" class="btn btn-sm btn-warning"> Low </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                           </table>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="col-md-6 text-center justify-content-center">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">
+                                        Customers with High Pertronage
+                                    </h3>
+                                </div>
+                                <div class="card-body">
+                                    <table class="table table-bordered table-condensed table-hover">
+                                        <thead>
+                                            <th>#</th>
+                                            <th>Customer Name</th>
+                                            <th>Email</th>
+                                            
+                                        </thead>
+                                        <tbody>
+                                            {% for high in highSeg%}
+                                                <tr>
+                                                    <td>{{ forloop.counter }}</td>
+                                                    <td>
+                                                        {{ high.customer_name }}
+                                                    </td>
+                                                    <td>
+                                                        {{ high.customer_email }}
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                       </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 mt-3 mb-3">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">
+                                        Customers with Low Pertronage
+                                    </h3>
+                                </div>
+                                <div class="card-body">
+                                    <table class="table table-bordered table-condensed table-hover">
+                                        <thead>
+                                            <th>#</th>
+                                            <th>Customer Name</th>
+                                            <th>Email</th>
+                                            
+                                        </thead>
+                                        <tbody>
+                                            {% for low in lowSeg%}
+                                                <tr>
+                                                    <td>{{ forloop.counter }}</td>
+                                                    <td>
+                                                        {{ low.customer_name }}
+                                                    </td>
+                                                    <td>
+                                                        {{ low.customer_email }}
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                       </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
